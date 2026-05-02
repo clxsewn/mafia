@@ -1,13 +1,18 @@
 <script setup>
 import { useGameStore } from '@/stores/game'
 import { usePagerStore } from '@/stores/pager'
-import { Groups } from '@/utils'
+import { Groups, pauseSound } from '@/utils'
 import { storeToRefs } from 'pinia'
 import { Button } from 'primevue'
+import { onMounted } from 'vue'
 
 const { game } = storeToRefs(useGameStore())
 
 const { toPage } = usePagerStore()
+
+onMounted(() => {
+  pauseSound('ambience')
+})
 </script>
 
 <template>
