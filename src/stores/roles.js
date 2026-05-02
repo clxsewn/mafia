@@ -1,23 +1,43 @@
 import { computed, ref } from 'vue'
 import { defineStore, storeToRefs } from 'pinia'
 import { usePlayersStore } from './players'
+import { Roles, rolesData } from '@/utils'
 
 export const useRolesStore = defineStore('roles', () => {
   const { selectedPlayersCount } = storeToRefs(usePlayersStore())
 
-  const roles = ref({
-    innocent: { name: '❤️ Мирний', count: selectedPlayersCount.value - 2 },
-    mafia: { name: '💀 Мафія', count: 1 },
-    doc: { name: '🩺 Доктор', count: 1 },
-    sheriff: { name: '👮 Комісар', count: 0 },
-  })
-
-  const totalSelectedRoles = computed(() =>
-    Object.values(roles.value).reduce((a, b) => a + b.count, 0),
+  const roles = ref(
+    rolesData.map((r) => {
+      r.count = 0
+      return r
+    }),
   )
 
+  const totalSelectedRoles = computed(() => roles.value.reduce((a, b) => a + b.count, 0))
+
+  function rolesToDefault() {
+    _role(Roles.Innocent).count = selectedPlayersCount.value - 2
+    _role(Roles.Mafia).count = 1
+    _role(Roles.Doc).count = 1
+    _role(Roles.Shreiff).count = 0
+  }
+
+  rolesToDefault()
+
   function getMax(role) {
-    return selectedPlayersCount.value - totalSelectedRoles.value + roles.value[role].count
+    return selectedPlayersCount.value - totalSelectedRoles.value + _role(role).count
+  }
+
+  function _role(role) {
+    return roles.value.find((r) => r.key === role)
+  }
+
+  function getAvailableRoles() {
+    return roles.value
+      .filter((r) => r.count > 0)
+      .map((r) => {
+        return { key: r.key, name: r.name }
+      })
   }
 
   function confirm() {
@@ -25,19 +45,19 @@ export const useRolesStore = defineStore('roles', () => {
       return { isError: true, msg: 'Недостатньо ролей на всіх гравців!' }
     }
 
-    if (roles.value.mafia.count === 0) {
+    if (_role(Roles.Mafia).count === 0) {
       return { isError: true, msg: 'Оберіть хочаб одну мафію.' }
     }
 
-    const allInnocentsCount = totalSelectedRoles.value - roles.value.mafia.count
-    const docVal = roles.value.doc.count > 0 ? 1 : 0
+    const allInnocentsCount = totalSelectedRoles.value - _role(Roles.Mafia).count
+    const docVal = _role(Roles.Doc).count > 0 ? 1 : 0
 
-    if (allInnocentsCount - roles.value.mafia.count + docVal <= 1) {
+    if (allInnocentsCount - _role(Roles.Mafia).count + docVal <= 1) {
       return { isError: true, msg: 'Забагато мафій!' }
     }
 
-    return true
+    return { isError: false }
   }
 
-  return { roles, totalSelectedRoles, getMax, confirm }
+  return { roles, totalSelectedRoles, getMax, confirm, rolesToDefault, getAvailableRoles }
 })

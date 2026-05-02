@@ -58,7 +58,7 @@ function submitHandler() {
     </div>
     <Avatar :name="name" :emoji="emoji" :color="'#' + color" class="mb-3" />
     <FloatLabel variant="in" class="mb-3">
-      <InputText id="name" v-model="name" style="width: 100%" autocomplete="off" />
+      <InputText id="name" v-model="name" autocomplete="off" fluid />
       <label for="name">Ім'я</label>
     </FloatLabel>
     <div class="mb-3" style="display: flex; align-items: center; gap: 12px">

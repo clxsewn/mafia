@@ -1,9 +1,12 @@
 <script setup>
 import RoleRow from '@/components/RoleRow.vue'
 import { usePagerStore } from '@/stores/pager'
+import { usePlayersStore } from '@/stores/players'
 import { useRolesStore } from '@/stores/roles'
 import { storeToRefs } from 'pinia'
 import { Button, useToast } from 'primevue'
+
+const { reloadRoles } = usePlayersStore()
 
 const pager = usePagerStore()
 const { toPage } = pager
@@ -31,10 +34,13 @@ function check() {
   return true
 }
 
-function startGame() {}
+function startGame() {
+  if (!check()) return 0
+}
 
 function toAssign() {
   if (!check()) return 0
+  reloadRoles()
   toPage('RolesAssign')
 }
 </script>
@@ -47,7 +53,7 @@ function toAssign() {
         severity="secondary"
         aria-label="На головну"
         @click="toPage('GamePlayersSelect')"
-      ></Button>
+      />
       <h1>Вибір ролей</h1>
     </div>
     <div class="mb-3 roles-rows">
@@ -60,9 +66,8 @@ function toAssign() {
       icon="pi pi-th-large"
       size="large"
       fluid
-      class="mb-2"
     />
-    <Button @click="startGame" label="Анонімна гра" icon="pi pi-play" size="large" fluid />
+    <!-- <Button @click="startGame" label="Анонімна гра" icon="pi pi-play" size="large" fluid /> -->
   </div>
 </template>
 

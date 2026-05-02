@@ -4,6 +4,7 @@ import GamePlayersSelect from '@/pages/GamePlayersSelect.vue'
 import NewPlayer from '@/pages/NewPlayer.vue'
 import RolesSelect from '@/pages/RolesSelect.vue'
 import RolesAssign from '@/pages/RolesAssign.vue'
+import Game from '@/pages/Game.vue'
 
 export const usePagerStore = defineStore('pager', () => {
   const pages = {
@@ -11,6 +12,7 @@ export const usePagerStore = defineStore('pager', () => {
     NewPlayer: NewPlayer,
     RolesSelect: RolesSelect,
     RolesAssign: RolesAssign,
+    Game: Game,
   }
 
   const page = ref('GamePlayersSelect')

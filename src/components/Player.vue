@@ -1,9 +1,15 @@
 <script setup>
-import { Button, useToast } from 'primevue'
+import { Button, Select, useToast } from 'primevue'
 import { usePlayersStore } from '@/stores/players'
 import { useConfirm } from 'primevue/useconfirm'
+import { TransitionGroup } from 'vue'
 
-const { data } = defineProps(['data'])
+const {
+  data,
+  selectionAllow = true,
+  selectionRole,
+  roles,
+} = defineProps(['data', 'selectionAllow', 'selectionRole', 'roles'])
 const { color } = data
 
 const players = usePlayersStore()
@@ -39,17 +45,35 @@ function deleteHandler() {
     },
   })
 }
+
+function onPlayerClick() {
+  if (!selectionAllow) return 0
+  setSelected(data.id, !data.isSelected)
+}
 </script>
 
 <template>
-  <div class="player" @click.stop="setSelected(data.id, !data.isSelected)">
+  <div class="player" @click.stop="onPlayerClick">
     <div class="about">
       <div class="emoji">{{ data.emoji }}</div>
       <div class="name">{{ data.name }}</div>
     </div>
     <div class="actions">
-      <Button @click.stop icon="pi pi-cog" severity="secondary" size="small" />
-      <Button @click.stop="deleteHandler" icon="pi pi-trash" severity="danger" size="small" />
+      <template v-if="selectionRole">
+        <Select
+          v-if="data.role === null"
+          v-model="data.role"
+          :options="roles"
+          option-label="name"
+          option-value="key"
+          placeholder="Оберіть роль"
+        />
+        <Button v-else severity="secondary" icon="pi pi-lock" disabled size="small" />
+      </template>
+      <template v-else>
+        <!-- <Button @click.stop icon="pi pi-cog" severity="secondary" size="small" /> -->
+        <Button @click.stop="deleteHandler" icon="pi pi-trash" severity="danger" size="small" />
+      </template>
     </div>
   </div>
 </template>
@@ -97,6 +121,10 @@ function deleteHandler() {
 .actions {
   display: flex;
   gap: 4px;
+  flex-shrink: 0;
+}
+
+.actions button {
   flex-shrink: 0;
 }
 </style>

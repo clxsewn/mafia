@@ -100,4 +100,13 @@ html {
   opacity: 0.3;
   transform: translateX(30px);
 }
+
+.p-dialog {
+  max-width: calc(100% - 20px);
+}
+
+button,
+.player {
+  -webkit-tap-highlight-color: transparent;
+}
 </style>

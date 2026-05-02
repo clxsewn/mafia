@@ -37,7 +37,7 @@ const props = defineProps(['id', 'data', 'max'])
 }
 
 .input {
-  width: 120px;
+  width: 126px;
 }
 
 .role-name {

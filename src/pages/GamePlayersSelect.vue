@@ -5,7 +5,7 @@ import { usePlayersStore } from '@/stores/players'
 import Player from '@/components/Player.vue'
 import { storeToRefs } from 'pinia'
 import { TransitionGroup } from 'vue'
-import { useGameStore } from '@/stores/game'
+import { useRolesStore } from '@/stores/roles'
 
 const pager = usePagerStore()
 const { toPage } = pager
@@ -13,6 +13,8 @@ const { toPage } = pager
 const playersStore = usePlayersStore()
 const { players, confirm } = playersStore
 const { selectedPlayersCount } = storeToRefs(playersStore)
+
+const { rolesToDefault } = useRolesStore()
 
 const toast = useToast()
 
@@ -30,6 +32,7 @@ function toRolesHandler() {
     return 0
   }
 
+  rolesToDefault()
   toPage('RolesSelect')
 }
 </script>
@@ -89,6 +92,8 @@ function toRolesHandler() {
 
 .player-select-page .page-grow {
   flex-grow: 1;
+  flex-shrink: 1;
+  overflow: auto;
 }
 
 .player-list {
