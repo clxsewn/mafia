@@ -68,7 +68,7 @@ function onPlayerClick() {
           option-value="key"
           placeholder="Оберіть роль"
         />
-        <Button v-else severity="secondary" icon="pi pi-lock" disabled size="small" />
+        <Button v-else severity="secondary" icon="pi pi-lock" disabled size="medium" />
       </template>
       <template v-else>
         <!-- <Button @click.stop icon="pi pi-cog" severity="secondary" size="small" /> -->
@@ -81,7 +81,7 @@ function onPlayerClick() {
 <style scoped>
 .player {
   width: 100%;
-  padding: 6px;
+  padding: 6px 13px 6px 6px;
   margin-bottom: 8px;
 
   display: flex;
@@ -100,7 +100,6 @@ function onPlayerClick() {
 .about {
   display: flex;
   align-items: center;
-  /* flex-grow: 1; */
   gap: 6px;
   overflow: hidden;
 }

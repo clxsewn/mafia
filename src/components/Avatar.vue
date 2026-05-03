@@ -25,11 +25,16 @@ defineProps(['name', 'emoji', 'color'])
 }
 
 .emoji {
-  font-size: 62px;
+  font-size: 4rem;
 }
 
 .name {
-  font-size: 28px;
+  max-width: 100%;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  font-size: 1.9rem;
   font-weight: 700;
   color: #fff;
   text-shadow:

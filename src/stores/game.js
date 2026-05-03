@@ -43,6 +43,7 @@ export const useGameStore = defineStore('game', () => {
       currentStage: 0,
       day: 1,
       targetText: '',
+      heals: [],
     })
   }
 
@@ -109,12 +110,25 @@ export const useGameStore = defineStore('game', () => {
       const target = game.value.players.find((p) => p.id === targetId)
 
       if (
+        !target ||
         game.value.action === null ||
         game.value.actionAvailable === false ||
         target.status === PlayerStatuses.Ejected ||
         target.status === PlayerStatuses.Eliminated
       )
         return 0
+
+      if (game.value.action === Actions.Heal) {
+        if (game.value.heals.length === 2) {
+          if (targetId === game.value.heals[0] && targetId === game.value.heals[1]) {
+            return 0
+          }
+
+          game.value.heals.shift()
+        }
+
+        game.value.heals.push(targetId)
+      }
 
       target.isTarget = true
 

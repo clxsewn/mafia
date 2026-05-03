@@ -93,12 +93,12 @@ const disabled = computed(
 }
 
 .emoji {
-  font-size: 3.2rem;
+  font-size: 3.8rem;
 }
 
 .name {
   max-width: 100%;
-  font-size: 1.3rem;
+  font-size: 1.9rem;
 
   overflow: hidden;
   word-break: break-word;
@@ -107,7 +107,11 @@ const disabled = computed(
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  -webkit-text-stroke: 1px rgba(50, 50, 50, 0.3);
+  text-shadow:
+    1px 1px 1px #00000088,
+    -1px -1px 1px #00000088,
+    1px -1px 1px #00000088,
+    -1px 1px 1px #00000088;
 }
 
 .status,
